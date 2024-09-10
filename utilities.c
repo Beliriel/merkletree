@@ -17,3 +17,16 @@ void print_buf(const char *title, const void *buf, size_t buf_len)
     
 
 }
+
+
+size_t calculate_log2_height(size_t x)
+{
+    if (x == 1) return 1;
+    size_t d = x;
+    size_t res = 0;
+    while (d>1) {
+        d = (d / 2) + (d % 2);
+        res++;
+    }
+    return res;
+}

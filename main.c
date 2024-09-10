@@ -21,10 +21,15 @@
  */
 int main(int argc, char** argv) {
     
-    unsigned int *p = malloc(sizeof(unsigned int));
-    *p = 23;
-    printf("%d\n", *p);
-    free(p);
+    uint64_t array[] = { 0, 1, 2, 3, 5, 8, 9};
+    struct MTree tree;
+    tree.hash_size = 16;
+    
+    int rc = mtree_init(&tree, array, sizeof(uint64_t), 7);
+    
+    mtree_process_tree(&tree);
+    mtree_print_tree(&tree);
+    mtree_free(&tree);
     return (EXIT_SUCCESS);
 }
 

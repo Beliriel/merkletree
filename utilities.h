@@ -22,6 +22,15 @@ extern "C" {
 
 void print_buf(const char *title, const void *buf, size_t buf_len);
 
+/**
+ * calculates the height of the tree based on the amount of elements
+ * excluding the base layer (leaves). Only the node-height is calculated.
+ * If the base layer should be included add one to the result.
+ * @param x amount of leaves
+ * @return amount of levels of nodes
+ */
+size_t calculate_log2_height(size_t x);
+
 
 #ifdef __cplusplus
 }
