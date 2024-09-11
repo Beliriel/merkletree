@@ -19,11 +19,16 @@ struct MTreeBuffer mtree_hash_data(void* data, size_t size, size_t hash_size)
     res.dsize = hash_size;
     res.dptr = malloc(res.dsize);
     blake2b_state state;
-    blake2b_init(&state, res.dsize);
-    blake2b_update(&state, (uint8_t*) (&tmp_flag), 1);
-    blake2b_update(&state, (uint8_t*) (&tmp_level), 1);
-    blake2b_update(&state, (uint8_t*) data, size);
-    blake2b_final(&state, (uint8_t*) res.dptr, res.dsize);
+    int rc = blake2b_init(&state, res.dsize);
+    rc += blake2b_update(&state, (uint8_t*) (&tmp_flag), 1);
+    rc += blake2b_update(&state, (uint8_t*) (&tmp_level), 1);
+    rc += blake2b_update(&state, (uint8_t*) data, size);
+    rc += blake2b_final(&state, (uint8_t*) res.dptr, res.dsize);
+    if(rc) {
+        free(res.dptr);
+        res.dptr = NULL;
+        res.dsize = 0;
+    }
     return res;
 }
 
@@ -136,13 +141,19 @@ void mtree_print_level(struct MTreeLevel level)
         printf("%d", i + 1);
         print_buf(". element: ", level.elements[i].hash.dptr, level.elements[i].hash.dsize);
     }
-    printf("\n");
+    
 }
 
 void mtree_print_tree(struct MTree* tree)
 {
     for (int i = 0; i < tree->num_levels; i++) {
+        if(i) {
+            printf("%d. Level of tree:\n", i);
+        } else {
+            printf("Leaves of tree (Level 0):\n");
+        }
         mtree_print_level(tree->levels[i]);
+        printf("\n");
     }
 }
 
