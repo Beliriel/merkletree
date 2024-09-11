@@ -13,7 +13,7 @@ void print_buf(const char *title, const void *buf, size_t buf_len)
     fprintf(stdout, "%s\n", title);
     for(i = 0; i < buf_len; ++i)
     fprintf(stdout, "%02X%s", conv_buf[i],
-             ( i + 1 ) % 16 == 0 ? "\n" : " " );
+             ( i + 1 ) % 16 == 0 ? "\n" : "" );
     
 
 }

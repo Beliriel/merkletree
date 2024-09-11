@@ -103,7 +103,7 @@ int mtree_process_level(struct MTree *tree, size_t lvl)
         }
     }
     
-    if (size_nxt_lvl > 1 && (size_nxt_lvl % 2 != 0 || n % 2 != 0)) {
+    if (size_nxt_lvl > 1 && (n % 2 != 0)) {
         struct MTreeNode *node = &(nlvl->elements[nlvl->num_elements-1]);
         size_t ipl = plvl->num_elements - 1; //Index of Previous level of the Last element
         mtree_make_parent(node, &(plvl->elements[ipl]), &(plvl->elements[ipl]));
